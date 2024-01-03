@@ -9,12 +9,14 @@ app.use(express.static(__dirname));
 //we generated them with mkcert
 // $ mkcert create-ca
 // $ mkcert create-cert
-const key = fs.readFileSync("cert.key");
-const cert = fs.readFileSync("cert.crt");
+
+// const key = fs.readFileSync("cert.key");
+// const cert = fs.readFileSync("cert.crt");
 
 //we changed our express setup so we can use https
 //pass the key and cert to createServer on https
-const expressServer = https.createServer({ key, cert }, app);
+// const expressServer = https.createServer({ key, cert }, app);
+const expressServer = https.createServer(app);
 //create our socket.io server... it will listen to our express port
 // const io = socketio(expressServer,{
 //     cors: {
