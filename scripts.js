@@ -3,8 +3,8 @@ const password = "x";
 document.querySelector("#user-name").innerHTML = userName;
 
 //if trying it on a phone, use this instead...
-// const socket = io.connect("https://localhost:5000/", {
-const socket = io.connect("https://webrtc-vc-production.up.railway.app", {
+const socket = io.connect("https://192.168.1.18:5000/", {
+	// const socket = io.connect("https://webrtc-vc-production.up.railway.app", {
 	auth: {
 		userName,
 		password,
