@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const socketio = require("socket.io");
 app.use(express.static(__dirname));
+const PORT = 5000;
 
 //we need a key and cert to run https
 //we generated them with mkcert
@@ -27,13 +28,21 @@ const expressServer = https.createServer(app);
 //         methods: ["GET", "POST"]
 //     }
 // });
+
+app.use(
+	cors({
+		origin: "*",
+	})
+);
 const io = socketio(expressServer, {
 	cors: {
 		origin: "*",
 		methods: ["GET", "POST"],
 	},
 });
-expressServer.listen(8181);
+expressServer.listen(PORT, () => {
+	console.log(`Server started at port: ${PORT}`);
+});
 
 //offers will contain {}
 const offers = [
