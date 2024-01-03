@@ -1,4 +1,5 @@
-const fs = require("fs");
+// const fs = require("fs");
+const cors = require("cors");
 const https = require("https");
 const express = require("express");
 const app = express();
