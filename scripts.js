@@ -3,7 +3,7 @@ const password = "x";
 document.querySelector("#user-name").innerHTML = userName;
 
 //if trying it on a phone, use this instead...
-const socket = io.connect("https://192.168.1.18:5000/", {
+const socket = io.connect("http://127.0.0.1:5000/", {
 	// const socket = io.connect("https://webrtc-vc-production.up.railway.app", {
 	auth: {
 		userName,
@@ -38,7 +38,7 @@ const call = async (e) => {
 	try {
 		console.log("Creating offer...");
 		const offer = await peerConnection.createOffer();
-		console.log(offer);
+		// console.log(offer);
 		peerConnection.setLocalDescription(offer);
 		didIOffer = true;
 		socket.emit("newOffer", offer); //send offer to signalingServer
@@ -52,8 +52,8 @@ const answerOffer = async (offerObj) => {
 	await createPeerConnection(offerObj);
 	const answer = await peerConnection.createAnswer({}); //just to make the docs happy
 	await peerConnection.setLocalDescription(answer); //this is CLIENT2, and CLIENT2 uses the answer as the localDesc
-	console.log(offerObj);
-	console.log(answer);
+	// console.log(offerObj);
+	// console.log(answer);
 	// console.log(peerConnection.signalingState) //should be have-local-pranswer because CLIENT2 has set its local desc to it's answer (but it won't be)
 	//add the answer to the offerObj so the server knows which offer this is related to
 	offerObj.answer = answer;
@@ -64,7 +64,7 @@ const answerOffer = async (offerObj) => {
 		peerConnection.addIceCandidate(c);
 		console.log("======Added Ice Candidate======");
 	});
-	console.log(offerIceCandidates);
+	// console.log(offerIceCandidates);
 };
 
 const addAnswer = async (offerObj) => {
@@ -92,12 +92,36 @@ const fetchUserMedia = () => {
 	});
 };
 
+const getAvailableDevices = async () => {
+	try {
+		if (!navigator.mediaDevices?.enumerateDevices) {
+			console.log("enumerateDevices() not supported.");
+		} else {
+			console.log("--------------enumerateDevices()---------------");
+			// List cameras and microphones.
+			const devices = await navigator.mediaDevices.enumerateDevices();
+			// .then((devices) => {
+			// devices.forEach((device) => {
+			// 	console.log(
+			// 		`${device.kind}: ${device.label} id = ${device.deviceId}`
+			// 	);
+			// });
+			// 	console.log(devices);
+			// })
+			console.log(devices);
+		}
+	} catch (error) {
+		console.error(`${err.name}: ${err.message}`);
+	}
+};
+
 const createPeerConnection = (offerObj) => {
 	return new Promise(async (resolve, reject) => {
 		//RTCPeerConnection is the thing that creates the connection
 		//we can pass a config object, and that config object can contain stun servers
 		//which will fetch us ICE candidates
 		peerConnection = await new RTCPeerConnection(peerConfiguration);
+		await getAvailableDevices();
 		remoteStream = new MediaStream();
 		remoteVideoEl.srcObject = remoteStream;
 
@@ -107,13 +131,13 @@ const createPeerConnection = (offerObj) => {
 		});
 
 		peerConnection.addEventListener("signalingstatechange", (event) => {
-			console.log(event);
-			console.log(peerConnection.signalingState);
+			// console.log(event);
+			// console.log(peerConnection.signalingState);
 		});
 
 		peerConnection.addEventListener("icecandidate", (e) => {
-			console.log("........Ice candidate found!......");
-			console.log(e);
+			// console.log("........Ice candidate found!......");
+			// console.log(e);
 			if (e.candidate) {
 				socket.emit("sendIceCandidateToSignalingServer", {
 					iceCandidate: e.candidate,
@@ -125,6 +149,7 @@ const createPeerConnection = (offerObj) => {
 
 		peerConnection.addEventListener("track", (e) => {
 			console.log("Got a track from the other peer!! How excting");
+			console.log("\n\n\n----------------TRACKS-------------");
 			console.log(e);
 			e.streams[0].getTracks().forEach((track) => {
 				remoteStream.addTrack(track, remoteStream);
