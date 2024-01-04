@@ -46,6 +46,7 @@ const startSocket = (httpServer) => {
 
 			//a new client has joined. If there are any offers available,
 			//emit them out
+
 			if (offers.length) {
 				socket.emit("availableOffers", offers);
 			}
@@ -59,6 +60,7 @@ const startSocket = (httpServer) => {
 					answer: null,
 					answererIceCandidates: [],
 				});
+				
 				// console.log(newOffer.sdp.slice(50))
 				//send out to all connected sockets EXCEPT the caller
 				socket.broadcast.emit("newOfferAwaiting", offers.slice(-1));

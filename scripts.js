@@ -3,8 +3,8 @@ const password = "x";
 document.querySelector("#user-name").innerHTML = userName;
 
 //if trying it on a phone, use this instead...
-// const socket = io.connect("http://127.0.0.1:5000/", {
-const socket = io.connect("https://webrtc-vc.onrender.com", {
+const socket = io.connect("http://127.0.0.1:5000/", {
+	// const socket = io.connect("https://webrtc-vc.onrender.com", {
 	auth: {
 		userName,
 		password,
@@ -99,15 +99,7 @@ const getAvailableDevices = async () => {
 		} else {
 			console.log("--------------enumerateDevices()---------------");
 			// List cameras and microphones.
-			const devices = await navigator.mediaDevices.enumerateDevices();
-			// .then((devices) => {
-			// devices.forEach((device) => {
-			// 	console.log(
-			// 		`${device.kind}: ${device.label} id = ${device.deviceId}`
-			// 	);
-			// });
-			// 	console.log(devices);
-			// })
+			const devices = await navigator.mediaDevices?.enumerateDevices();
 			console.log(devices);
 		}
 	} catch (error) {
@@ -153,7 +145,7 @@ const createPeerConnection = (offerObj) => {
 			console.log(e);
 			e.streams[0].getTracks().forEach((track) => {
 				remoteStream.addTrack(track, remoteStream);
-				console.log("Here's an exciting moment... fingers cross");
+				// console.log("Here's an exciting moment... fingers cross");
 			});
 		});
 
