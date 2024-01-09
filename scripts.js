@@ -4,7 +4,7 @@ document.querySelector("#user-name").innerHTML = userName;
 
 //if trying it on a phone, use this instead...
 // const socket = io.connect("http://127.0.0.1:5000/", {
-	const socket = io.connect("https://webrtc-vc.onrender.com", {
+const socket = io.connect("https://webrtc-vc.onrender.com", {
 	auth: {
 		userName,
 		password,
@@ -22,7 +22,11 @@ let didIOffer = false;
 let peerConfiguration = {
 	iceServers: [
 		{
-			urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"],
+			// urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"],
+			// urls: ["stun:192.168.1.4:3478"],
+			urls: [
+				"stun:279e-2401-4900-1c88-6912-db5c-53aa-9d45-ddcb.ngrok-free.app:3478",
+			],
 		},
 	],
 };
