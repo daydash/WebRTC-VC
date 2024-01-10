@@ -22,11 +22,8 @@ let didIOffer = false;
 let peerConfiguration = {
 	iceServers: [
 		{
-			urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"],
-			// urls: ["stun:192.168.1.4:3478"],
-			// urls: [
-			// 	"stun:279e-2401-4900-1c88-6912-db5c-53aa-9d45-ddcb.ngrok-free.app:3478",
-			// ],
+			// urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302"],
+			urls: ["stun:34.131.107.158:3478"],
 			// urls: ["stun:fakeurl.com:3478"],
 		},
 	],
